@@ -69,3 +69,52 @@ def print_status(player):
     print(f"Health: {player.health}")
     print(f"Attack Power: {player.attack_power}")
     print(f"Inventory: {[item.name for item in player.inventory]}")
+
+def main():
+    player = Player()
+    print("Welcome to the Adventure Game!")
+    
+    while True:
+        print("\nWhat would you like to do?")
+        print("1. Explore")
+        print("2. View Status")
+        print("3. Quit")
+
+        choice = input("> ")
+
+        if choice == "1":
+            action = random.choice(["find_item", "fight_mob"])
+            if action == "find_item":
+                item = get_random_item()
+                player.pick_up_item(item)
+            elif action == "fight_mob":
+                mob = get_random_mob()
+                print(f"A wild {mob.name} appeared!")
+                while mob.health > 0:
+                    print(f"\nThe {mob.name} has {mob.health} health left.")
+                    print("1. Attack")
+                    print("2. Run")
+                    action = input("> ")
+                    if action == "1":
+                        if player.attack_mob(mob):
+                            break
+                    elif action == "2":
+                        print("You ran away safely.")
+                        break
+                    else:
+                        print("Invalid choice.")
+            else:
+                print("Unexpected action.")
+        
+        elif choice == "2":
+            print_status(player)
+        
+        elif choice == "3":
+            print("Thanks for playing! Goodbye!")
+            break
+        
+        else:
+            print("Invalid choice. Please choose again.")
+
+if __name__ == "__main__":
+    main()
